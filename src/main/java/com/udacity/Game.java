@@ -87,8 +87,9 @@ public class Game {
     /**
      * Override
      * @return string format for 2D array values
+     * @param c
      */
-    public String toString(){
+    public String toString(char c){
         return Arrays.deepToString(this.grid);
     }
 
@@ -148,69 +149,31 @@ public class Game {
      * @param grid 2D array of characters representing the game board
      * @return String indicating the outcome of the game: "X wins" or "O wins" or "Tie" or "None"
      */
-    public String checkGameWinner(char [][]grid){
+    public String checkGameWinner(char [][]grid) {
         String result = "None";
         //Student code goes here ...
-        String winner = "";
+        char winner = '-';
 
-        // Checking horizontally for X win
+        if (freeSpots <= 4) {
+            if ((grid[0][0] == 'x' || grid[0][0] == 'o') && grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2]) {
+                winner = grid[1][1];
+            } else if ((grid[0][2] == 'x' || grid[0][2] == 'o') && grid[0][2] == grid[1][1] && grid[1][1] == grid[2][0]) {
+                winner = grid[1][1];
+            }
 
-        if (grid[0][0] == 'x' && grid[0][1] == 'x' && grid[0][2] == 'x'){
-            winner = "x";
-        }else if (grid[1][0] == 'x' && grid[1][1] == 'x' && grid[1][2] == 'x'){
-            winner = "x";
-        }else if (grid[2][0] == 'x' && grid[2][1] == 'x' && grid[2][2] == 'x'){
-            winner = "x";
+            for (int i = 0; i < 3; i++) {
+                if ((grid[i][0] == 'x' || grid[i][0] == 'o') && grid[i][0] == grid[i][1] && grid[i][1] == grid[i][2]) {
+                    winner = grid[i][0];
+                } else if ((grid[0][i] == 'x' || grid[0][i] == 'o') && grid[0][i] == grid[1][i] && grid[1][i] == grid[2][i]) {
+                    winner = grid[0][i];
+                }
+            }
         }
 
-        // Checking horizontally for O win
-
-        else if (grid[0][0] == 'o' && grid[0][1] == 'o' && grid[0][2] == 'o'){
-            winner = "o";
-        }else if (grid[1][0] == 'o' && grid[1][1] == 'o' && grid[1][2] == 'o'){
-            winner = "o";
-        }else if (grid[2][0] == 'o' && grid[2][1] == 'o' && grid[2][2] == 'o'){
-            winner = "o";
-        }
-
-        // Checking vertically for X win
-
-        else if (grid[0][0] == 'x' && grid[1][0] == 'x' && grid[2][0] == 'x'){
-            winner = "x";
-        }else if (grid[0][1] == 'x' && grid[1][1] == 'x' && grid[2][1] == 'x'){
-            winner = "x";
-        }else if (grid[0][2] == 'x' && grid[1][2] == 'x' && grid[2][2] == 'x'){
-            winner = "x";
-        }
-
-        // Checking vertically for O win
-
-        else if (grid[0][0] == 'o' && grid[1][0] == 'o' && grid[2][0] == 'o'){
-            winner = "o";
-        }else if (grid[0][1] == 'o' && grid[1][1] == 'o' && grid[2][1] == 'o'){
-            winner = "o";
-        }else if (grid[0][2] == 'o' && grid[1][2] == 'o' && grid[2][2] == 'o'){
-            winner = "o";
-        }
-
-        //Checking diagonally for X win
-
-        else if (grid[0][0] == 'x' && grid[1][1] == 'x' && grid[2][2] == 'x'){
-            winner = "x";
-        }else if (grid[0][2] == 'x' && grid[1][1] == 'x' && grid[2][0] == 'x'){
-            winner = "x";
-        }
-
-        //Checking diagonally for O win
-
-        else if (grid[0][0] == 'o' && grid[1][1] == 'o' && grid[2][2] == 'o'){
-            winner = "o";
-        }else if (grid[0][2] == 'o' && grid[1][1] == 'o' && grid[2][0] == 'o'){
-            winner = "o";
-        }
-
-        if(!winner.equals("")){
-            result = winner.toUpperCase() + " wins!";
+        if (winner == 'x'){
+            result = "X wins!";
+        } else if (winner == 'o'){
+            result = "O wins!";
         } else if(freeSpots == 0){
             result = "Tie!";
         }
