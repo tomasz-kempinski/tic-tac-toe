@@ -87,9 +87,8 @@ public class Game {
     /**
      * Override
      * @return string format for 2D array values
-     * @param c
      */
-    public String toString(char c){
+    public String toString(){
         return Arrays.deepToString(this.grid);
     }
 
@@ -149,32 +148,49 @@ public class Game {
      * @param grid 2D array of characters representing the game board
      * @return String indicating the outcome of the game: "X wins" or "O wins" or "Tie" or "None"
      */
-    public String checkGameWinner(char [][]grid) {
+    public String checkGameWinner(char [][]grid){
         String result = "None";
         //Student code goes here ...
+
         char winner = '-';
 
+        /* It takes at least 5 moves in the game to win so the program should start
+            checking for the winner when there are 4 and less freeSpots left on the board */
         if (freeSpots <= 4) {
-            if ((grid[0][0] == 'x' || grid[0][0] == 'o') && grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2]) {
-                winner = grid[1][1];
-            } else if ((grid[0][2] == 'x' || grid[0][2] == 'o') && grid[0][2] == grid[1][1] && grid[1][1] == grid[2][0]) {
+
+            // Checking for the winner diagonally from the left upper corner to the right bottom corner
+            if ((grid[0][0] == 'x' || grid[0][0] == 'o') &&
+                    grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2]) {
+                winner = grid[1][1]; // Middle spot on the board will always be in a diagonal winning condition
+
+                // Checking for the winner diagonally from the right upper corner to the left bottom corner
+            } else if ((grid[0][2] == 'x' || grid[0][2] == 'o') &&
+                    grid[0][2] == grid[1][1] && grid[1][1] == grid[2][0]) {
                 winner = grid[1][1];
             }
 
+            // Loop for going through all rows and columns
             for (int i = 0; i < 3; i++) {
-                if ((grid[i][0] == 'x' || grid[i][0] == 'o') && grid[i][0] == grid[i][1] && grid[i][1] == grid[i][2]) {
+
+                // Checking for the winner horizontally in all rows
+                if ((grid[i][0] == 'x' || grid[i][0] == 'o') &&
+                        grid[i][0] == grid[i][1] && grid[i][1] == grid[i][2]) {
                     winner = grid[i][0];
-                } else if ((grid[0][i] == 'x' || grid[0][i] == 'o') && grid[0][i] == grid[1][i] && grid[1][i] == grid[2][i]) {
+
+                    // Checking for the winner vertically in all columns
+                } else if ((grid[0][i] == 'x' || grid[0][i] == 'o') &&
+                        grid[0][i] == grid[1][i] && grid[1][i] == grid[2][i]) {
                     winner = grid[0][i];
                 }
             }
         }
 
+        // Possible game results
         if (winner == 'x'){
             result = "X wins!";
         } else if (winner == 'o'){
             result = "O wins!";
-        } else if(freeSpots == 0){
+        } else if(freeSpots == 0){ //If there is no winner and no freeSpots left on the board
             result = "Tie!";
         }
 
@@ -185,7 +201,7 @@ public class Game {
      * Main function
      * @param args command line arguments
      */
-    public static void main(String [] args){
+    public static void main(String args[]){
         Game game = new Game();
         gui = new GameUI(game);
     }
